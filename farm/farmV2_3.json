@@ -2,7 +2,7 @@
   "farm": [
     {
       "pid": 0,
-      "lpTokenPairsymbol": "PGL",
+      "lpTokenPairSymbol": "PGL",
       "lpName": "AVAX-USDT.e",
       "status": "",
       "lpAddresses": {
@@ -36,7 +36,7 @@
       }
     },{
       "pid": 1,
-      "lpTokenPairsymbol": "PGL",
+      "lpTokenPairSymbol": "PGL",
       "lpName": "AVAX-USDC.e",
       "status": "",
       "lpAddresses": {
@@ -70,7 +70,7 @@
       }
     },{
       "pid": 2,
-      "lpTokenPairsymbol": "PGL",
+      "lpTokenPairSymbol": "PGL",
       "lpName": "AVAX-PNG",
       "status": "",
       "lpAddresses": {
@@ -104,7 +104,7 @@
       }
     },{
       "pid": 3,
-      "lpTokenPairsymbol": "PGL",
+      "lpTokenPairSymbol": "PGL",
       "lpName": "QI-AVAX",
       "status": "",
       "lpAddresses": {
@@ -138,7 +138,7 @@
       }
     },{
       "pid": 4,
-      "lpTokenPairsymbol": "PGL",
+      "lpTokenPairSymbol": "PGL",
       "lpName": "AVAX-WETH.e",
       "status": "",
       "lpAddresses": {
@@ -172,7 +172,7 @@
       }
     },{
       "pid": 5,
-      "lpTokenPairsymbol": "PGL",
+      "lpTokenPairSymbol": "PGL",
       "lpName": "USDC.e-USDT.e",
       "status": "",
       "lpAddresses": {
@@ -206,7 +206,7 @@
       }
     },{
       "pid": 6,
-      "lpTokenPairsymbol": "PGL",
+      "lpTokenPairSymbol": "PGL",
       "lpName": "BAVA-AVAX",
       "status": "",
       "lpAddresses": {
@@ -240,7 +240,7 @@
       }
     }, {
       "pid": 7,
-      "lpTokenPairsymbol": "PGL",
+      "lpTokenPairSymbol": "PGL",
       "lpName": "sAVAX-AVAX",
       "status": "",
       "lpAddresses": {
@@ -274,7 +274,7 @@
       }
     }, {
       "pid": 8,
-      "lpTokenPairsymbol": "PGL",
+      "lpTokenPairSymbol": "PGL",
       "lpName": "USDC-USDC.e",
       "status": "",
       "lpAddresses": {
@@ -308,7 +308,7 @@
       }
     }, {
       "pid": 9,
-      "lpTokenPairsymbol": "PNG",
+      "lpTokenPairSymbol": "PNG",
       "lpName": "PNG",
       "status": "",
       "lpAddresses": {
@@ -342,7 +342,7 @@
       }
     }, {
       "pid": 10,
-      "lpTokenPairsymbol": "DMM-LP",
+      "lpTokenPairSymbol": "DMM-LP",
       "lpName": "USDC.e-USDC",
       "status": "",
       "lpAddresses": {

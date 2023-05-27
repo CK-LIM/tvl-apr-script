@@ -2,7 +2,7 @@
     "farm": [
       {
         "pid": 0,
-        "lpTokenPairsymbol": "PGL",
+        "lpTokenPairSymbol": "PGL",
         "lpName": "BAVA-AVAX",
         "status": "(Archived)",
         "lpAddresses": {
@@ -36,7 +36,7 @@
       },
       {
         "pid": 1,
-        "lpTokenPairsymbol": "JLP",
+        "lpTokenPairSymbol": "JLP",
         "lpName": "BAVA-AVAX",
         "status": "",
         "lpAddresses": {
@@ -68,7 +68,7 @@
         }
       }, {
         "pid": 2,
-        "lpTokenPairsymbol": "JLP",
+        "lpTokenPairSymbol": "JLP",
         "lpName": "BAVA-USDC.e",
         "status": "",
         "lpAddresses": {

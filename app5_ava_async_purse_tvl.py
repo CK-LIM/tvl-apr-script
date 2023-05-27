@@ -49,7 +49,10 @@ bavaCompoundPoolJson = open(full_path+'/abi/'+'BavaCompoundPool.json')
 bavaCompoundPoolAbi = json.load(bavaCompoundPoolJson)
 bavaCompoundVault_VariableUpgradeableJson = open(full_path+'/abi/'+'BavaCompoundVault_VariableUpgradeable.json')
 bavaCompoundVault_VariableUpgradeableAbi = json.load(bavaCompoundVault_VariableUpgradeableJson)
-
+BavaCompoundVault_GlpUpgradeableJson = open(full_path+'/abi/'+'BavaCompoundVault_GlpUpgradeable.json')
+BavaCompoundVault_GlpUpgradeableAbi = json.load(BavaCompoundVault_GlpUpgradeableJson)
+chainlinkOracle_Json = open(full_path+'/abi/'+'chainlinkOracle.json')
+chainlinkOracle_Abi = json.load(chainlinkOracle_Json)
 
 # Load Pool data
 farmJson = open(full_path+'/farm/'+'farm.json')
@@ -79,10 +82,13 @@ bavaMasterFarmV2_3 = "0x25Fc2D200F31485A58AE704403316791e65fAB0E"
 bavaMasterFarmContractV2_3 = web3.eth.contract(address=bavaMasterFarmV2_3, abi=bavaMasterFarmV2_3Abi["abi"])
 bavaMasterFarmUpgradeable = "0xEB3bb8e88ceD2352B07CC480E4E41F73046C0700"
 bavaMasterFarmContractUpgradeable = web3.eth.contract(address=bavaMasterFarmUpgradeable, abi=bavaMasterFarmUpgradeableAbi["abi"])
+glpPriceAggregator = "0x75d5901151AB7970741eD1587d560f955aFF9d74"
+chainlinkContract = web3.eth.contract(address=glpPriceAggregator, abi=chainlinkOracle_Abi["abi"])
+
 
 totalSupply = bavaContract.functions.totalSupply().call(block_identifier= 'latest')
 print("......")
-bonusMultiplier = 87
+bonusMultiplier = 12
 load_dotenv()
 infuraKey = os.getenv("INFURA_KEY")
 mongoDBUser = os.getenv("MONGODB_USERNAME")
@@ -97,6 +103,8 @@ def queryData():
 # event = proxyContract.events.Transfer().processReceipt(receipt, errors= DISCARD)
     response = requests.get("https://api.coingecko.com/api/v3/simple/price?ids=joe%2Cwrapped-avax%2Cpangolin%2Cweth%2Cbaklava%2Cusd-coin%2Ctether%2Cbenqi%2Cterra-luna&vs_currencies=usd")
     responseJson = response.json()
+    GLPPrice = chainlinkContract.functions.latestRoundData().call()
+    GLPPrice = GLPPrice[1] / (10 ** 12)
     tokenPriceArray=[]
 
     AVAXPrice = responseJson["wrapped-avax"]["usd"]
@@ -109,10 +117,6 @@ def queryData():
 
     PNGPrice = responseJson["pangolin"]["usd"]
     tokenPrice = {"pngPrice":str(PNGPrice)}
-    tokenPriceArray.append(tokenPrice)
-
-    LUNAPrice = responseJson["terra-luna"]["usd"]
-    tokenPrice = {"lunaPrice":str(LUNAPrice)}
     tokenPriceArray.append(tokenPrice)
 
     WETHPrice = responseJson["weth"]["usd"]
@@ -180,14 +184,23 @@ def queryData():
         lpToken = poolInfo[0]
         vaultAddress = poolInfo[1]
         allocPoint = poolInfo[2]
-
-        vaultContract = web3.eth.contract(address=vaultAddress, abi=bavaCompoundVault_VariableUpgradeableAbi["abi"])
+        print(vaultAddress)
+        
         lpContract = web3.eth.contract(lpToken, abi=lpAbi["abi"])
         lpTokenA = web3.eth.contract(address=event["token"]["MAINNET"]["address"], abi=lpAbi["abi"])
         lpTokenB = web3.eth.contract(address=event["quoteToken"]["MAINNET"]["address"], abi=lpAbi["abi"])
 
-        lpReceiptInContract = vaultContract.functions.totalSupply().call()
-        lpTokenInContract = (vaultContract.functions.vaultInfo().call())[2]
+        
+        if x == 15 or x == 16 :
+            vaultContract = web3.eth.contract(address=vaultAddress, abi=BavaCompoundVault_GlpUpgradeableAbi["abi"])
+            lpReceiptInContract = vaultContract.functions.totalSupply().call()
+            lpTokenInContract = (vaultContract.functions.vaultInfo().call())[1]
+        else:
+            vaultContract = web3.eth.contract(address=vaultAddress, abi=bavaCompoundVault_VariableUpgradeableAbi["abi"])
+            lpReceiptInContract = vaultContract.functions.totalSupply().call()
+            lpTokenInContract = (vaultContract.functions.vaultInfo().call())
+            print(lpTokenInContract)
+            lpTokenInContract = lpTokenInContract[2]
 
         if lpReceiptInContract == 0 :
             returnRatio = 1
@@ -220,6 +233,8 @@ def queryData():
             tokenAPrice = QIPrice    
         elif (event["token"]["MAINNET"]["symbol"] == "USDt") :
             tokenAPrice = USDTPrice * 1000000000000   
+        elif (event["token"]["MAINNET"]["symbol"] == "sGLP") :
+            tokenAPrice = GLPPrice 
 
         if event["quoteToken"]["MAINNET"]["symbol"] == "BAVA" :
             tokenBPrice = BAVAPrice
@@ -245,7 +260,7 @@ def queryData():
             tokenBPrice = USDTPrice * 1000000000000
 
         lpTokenValue = ((lpTokenABalanceContract * tokenAPrice) + (lpTokenBBalanceContract * tokenBPrice)) / lpTokenTSupply
-        if event["lpTokenPairsymbol"] == "XJOE" or event["lpTokenPairsymbol"] == "PNG" :
+        if event["lpTokenPairSymbol"] == "XJOE" or event["lpTokenPairSymbol"] == "PNG" or event["lpTokenPairSymbol"] == "GVRT" or event["lpTokenPairSymbol"] == "UVRT":
             tvl = web3.fromWei(tokenAPrice * lpTokenInContract, 'ether')
             lpTokenValue = tokenAPrice
         else:
@@ -338,7 +353,7 @@ def queryData():
             tokenBPrice = QIPrice 
 
         lpTokenValue = ((lpTokenABalanceContract * tokenAPrice) + (lpTokenBBalanceContract * tokenBPrice)) / lpTokenTSupply
-        if event["lpTokenPairsymbol"] == "XJOE" or event["lpTokenPairsymbol"] == "PNG" :
+        if event["lpTokenPairSymbol"] == "XJOE" or event["lpTokenPairSymbol"] == "PNG" :
             tvl = web3.fromWei(tokenAPrice * lpTokenInContract, 'ether')
             lpTokenValue = tokenAPrice
         else:
@@ -425,7 +440,7 @@ def queryData():
             tokenBPrice = QIPrice 
 
         lpTokenValue = ((lpTokenABalanceContract * tokenAPrice) + (lpTokenBBalanceContract * tokenBPrice)) / lpTokenTSupply
-        if event["lpTokenPairsymbol"] == "XJOE" or event["lpTokenPairsymbol"] == "PNG" :
+        if event["lpTokenPairSymbol"] == "XJOE" or event["lpTokenPairSymbol"] == "PNG" :
             tvl = web3.fromWei(tokenAPrice * lpTokenInContract, 'ether')
             lpTokenValue = tokenAPrice
         else:
@@ -504,7 +519,7 @@ def queryData():
             tokenBPrice = QIPrice 
 
         lpTokenValue = ((lpTokenABalanceContract * tokenAPrice) + (lpTokenBBalanceContract * tokenBPrice)) / lpTokenTSupply
-        if event["lpTokenPairsymbol"] == "XJOE" or event["lpTokenPairsymbol"] == "PNG" :
+        if event["lpTokenPairSymbol"] == "XJOE" or event["lpTokenPairSymbol"] == "PNG" :
             tvl = web3.fromWei(tokenAPrice * lpTokenInContract, 'ether')
             lpTokenValue = tokenAPrice
         else:
@@ -591,7 +606,7 @@ def queryData():
             tokenBPrice = QIPrice 
 
         lpTokenValue = ((lpTokenABalanceContract * tokenAPrice) + (lpTokenBBalanceContract * tokenBPrice)) / lpTokenTSupply
-        if event["lpTokenPairsymbol"] == "XJOE" or event["lpTokenPairsymbol"] == "PNG" :
+        if event["lpTokenPairSymbol"] == "XJOE" or event["lpTokenPairSymbol"] == "PNG" :
             tvl = web3.fromWei(tokenAPrice * lpTokenInContract, 'ether')
             lpTokenValue = tokenAPrice
         else:
@@ -697,14 +712,24 @@ def queryData():
         lpTokenValueFile = {"lpTokenValue":bavalpTokenValueArray}
         json.dump(lpTokenValueFile, lpTokenValue_file, indent=4) 
 
+    with open("TokenPrice.json", 'w') as tokenPrice_file:
+        tokenPriceFile = {"tokenPrice":tokenPriceArray}
+        json.dump(tokenPriceFile, tokenPrice_file, indent=4) 
+
     with open("AllData.json", 'w') as allData_file:
         allDataFile = {
             "TVL":tvlArray, "TVLV2_2":tvlArrayV2_2, "TVLV2_3":tvlArrayV2_3, "TVLUpgradeable":tvlArrayUpgradeable, 
             "Bavatvl":bavatvlArray, "APR":aprArray, "APRV2_2":aprArrayV2_2, "APRV2_3":aprArrayV2_3, "APRUpgradeable":aprArrayUpgradeable, "BavaAPR":bavaaprArray, 
             "ApyDaily":apyArray, "ApyDailyV2_2":apyArrayV2_2, "ApyDailyV2_3":apyArrayV2_3, "ApyDailyUpgradeable":apyArrayUpgradeable, "BavaApyDaily":bavaapyArray, 
             "ReturnRatio":returnRatioArray, "ReturnRatioV2_2":returnRatioArrayV2_2, "ReturnRatioV2_3":returnRatioArrayV2_3, "ReturnRatioUpgradeable":returnRatioArrayUpgradeable, 
-            "LpTokenValue":lpTokenValueArray, "LpTokenValueV2_2":lpTokenValueArrayV2_2, "LpTokenValueV2_3":lpTokenValueArrayV2_3, "LpTokenValueUpgradeable":lpTokenValueArrayUpgradeable, "BavaLpTokenValue":bavalpTokenValueArray }
+            "LpTokenValue":lpTokenValueArray, "LpTokenValueV2_2":lpTokenValueArrayV2_2, "LpTokenValueV2_3":lpTokenValueArrayV2_3, "LpTokenValueUpgradeable":lpTokenValueArrayUpgradeable, 
+            "BavaLpTokenValue":bavalpTokenValueArray, "TokenPrice":tokenPriceArray
+            }
         json.dump(allDataFile, allData_file, indent=4) 
+
+
+
+
 
 ##############################################################################################################
 # Update and Retreive BDL Total and Past 30 Days Amount from MongoDB
@@ -740,7 +765,7 @@ def getDB():
     collectionName1 = dbName["TVL"]
     collectionName2 = dbName["APR"]
     collectionName3 = dbName["APYDaily"]
-
+    collectionName4 = dbName["TOKENPRICE"]
     collectionName5 = dbName["BAVATVL"]
     collectionName6 = dbName["BAVAAPR"]
     collectionName7 = dbName["BAVAAPYDaily"]
@@ -759,6 +784,10 @@ def getDB():
     for data3 in cursor3:
         apy = data3["apyDaily"]
 
+    cursor4 = collectionName4.find({})
+    for data4 in cursor4:
+        apy = data4["tokenPrice"]
+
     cursor5 = collectionName5.find({})
     for data5 in cursor5:
         tvl = data5["tvl"]
@@ -769,7 +798,7 @@ def getDB():
         
     cursor7 = collectionName7.find({})
     for data7 in cursor7:
-        apy = data7["apyDaily"]
+        apy = data7["bavaApyDaily"]
 
     cursor8 = collectionName8.find({})
     for data8 in cursor8:
@@ -781,7 +810,7 @@ def getDB():
 
 def minCheck():
     try:
-        queryData()
+        # queryData()
         connectDB()
         updateDB()
         print("done query data")
@@ -805,7 +834,7 @@ def scheduleUpdate():
 # #############################################################################################################
 def main():
     
-    queryData()
+    # queryData()
     print("done query data")
     connectDB()
     updateDB()

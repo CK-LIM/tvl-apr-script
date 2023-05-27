@@ -2,7 +2,7 @@
   "farm": [
     {
       "pid": 0,
-      "lpTokenPairsymbol": "PGL",
+      "lpTokenPairSymbol": "PGL",
       "lpName": "AVAX-USDT.e",
       "status": "",
       "lpAddresses": {
@@ -48,7 +48,7 @@
     },
     {
       "pid": 1,
-      "lpTokenPairsymbol": "PGL",
+      "lpTokenPairSymbol": "PGL",
       "lpName": "AVAX-USDC.e",
       "status": "",
       "lpAddresses": {
@@ -94,7 +94,7 @@
     },
     {
       "pid": 2,
-      "lpTokenPairsymbol": "PGL",
+      "lpTokenPairSymbol": "PGL",
       "lpName": "BAVA-AVAX",
       "status": "",
       "lpAddresses": {
@@ -140,7 +140,7 @@
     },
     {
       "pid": 3,
-      "lpTokenPairsymbol": "PGL",
+      "lpTokenPairSymbol": "PGL",
       "lpName": "AVAX-PNG",
       "status": "",
       "lpAddresses": {
@@ -186,7 +186,7 @@
     },
     {
       "pid": 4,
-      "lpTokenPairsymbol": "PGL",
+      "lpTokenPairSymbol": "PGL",
       "lpName": "QI-AVAX",
       "status": "",
       "lpAddresses": {
@@ -232,7 +232,7 @@
     },
     {
       "pid": 5,
-      "lpTokenPairsymbol": "PGL",
+      "lpTokenPairSymbol": "PGL",
       "lpName": "AVAX-WETH.e",
       "status": "",
       "lpAddresses": {
@@ -278,7 +278,7 @@
     },
     {
       "pid": 6,
-      "lpTokenPairsymbol": "PGL",
+      "lpTokenPairSymbol": "PGL",
       "lpName": "USDC-USDC.e",
       "status": "",
       "lpAddresses": {
@@ -324,7 +324,7 @@
     },
     {
       "pid": 7,
-      "lpTokenPairsymbol": "PGL",
+      "lpTokenPairSymbol": "PGL",
       "lpName": "sAVAX-AVAX",
       "status": "",
       "lpAddresses": {
@@ -372,7 +372,7 @@
     },
     {
       "pid": 8,
-      "lpTokenPairsymbol": "PGL",
+      "lpTokenPairSymbol": "PGL",
       "lpName": "USDC.e-USDT.e",
       "status": "",
       "lpAddresses": {
@@ -418,7 +418,7 @@
     },
     {
       "pid": 9,
-      "lpTokenPairsymbol": "PNG",
+      "lpTokenPairSymbol": "PNG",
       "lpName": "PNG",
       "status": "",
       "lpAddresses": {
@@ -459,7 +459,7 @@
     },
     {
       "pid": 10,
-      "lpTokenPairsymbol": "JLP",
+      "lpTokenPairSymbol": "JLP",
       "lpName": "BAVA-AVAX",
       "status": "",
       "lpAddresses": {
@@ -504,7 +504,7 @@
     },
     {
       "pid": 11,
-      "lpTokenPairsymbol": "JLP",
+      "lpTokenPairSymbol": "JLP",
       "lpName": "BAVA-USDC.e",
       "status": "",
       "lpAddresses": {
@@ -549,7 +549,7 @@
     },
     {
       "pid": 12,
-      "lpTokenPairsymbol": "JLP",
+      "lpTokenPairSymbol": "JLP",
       "lpName": "AVAX-USDC",
       "status": "",
       "lpAddresses": {
@@ -594,7 +594,7 @@
     },
     {
       "pid": 13,
-      "lpTokenPairsymbol": "JLP",
+      "lpTokenPairSymbol": "JLP",
       "lpName": "USDC-USDC.e",
       "status": "",
       "lpAddresses": {
@@ -639,7 +639,7 @@
     },
     {
       "pid": 14,
-      "lpTokenPairsymbol": "JLP",
+      "lpTokenPairSymbol": "JLP",
       "lpName": "AVAX-USDT",
       "status": "",
       "lpAddresses": {
@@ -679,6 +679,92 @@
           "decimals": "6",
           "symbol": "USDt",
           "name": "Tether USD"
+        }
+      }
+    },
+    {
+      "pid": 15,
+      "lpTokenPairSymbol": "GVRT",
+      "lpName": "AVAX-USDT",
+      "status": "",
+      "lpAddresses": {
+        "43114": "0x5a4Bb8f74bb465dA3de6bBa3c8e85dFf72dc82Da"
+      },
+      "vaultAddresses": {
+        "43114": "0xf160C07c5a7e80F9bFA61f9554FF449b8B3eD990"
+      },
+      "icon": [
+        {
+          "image": "/images/glp_avax.svg",
+          "imageSize": "bigIconSize",
+          "imagePosition": "iconCenter"
+        }
+      ],
+      "platform": "GMX",
+      "allocPoint": 50,
+      "getLPLink": "https://app.gmx.io/#/buy_glp",
+      "farmContract": "https://snowtrace.io/address/0x9ab2De34A33fB459b538c43f251eB825645e8595#code",
+      "total3rdPartyAPR": "10.4",
+      "3rdPartyId": "",
+      "token": {
+        "MAINNET": {
+          "chainId": "43114",
+          "address": "0xaE64d55a6f09E4263421737397D1fdFA71896a69",
+          "decimals": "18",
+          "symbol": "sGLP",
+          "name": "StakedGlp"
+        }
+      },
+      "quoteToken": {
+        "MAINNET": {
+          "chainId": "43114",
+          "address": "0xaE64d55a6f09E4263421737397D1fdFA71896a69",
+          "decimals": "18",
+          "symbol": "sGLP",
+          "name": "StakedGlp"
+        }
+      }
+    },
+    {
+      "pid": 16,
+      "lpTokenPairSymbol": "UVRT",
+      "lpName": "AVAX-USDT",
+      "status": "",
+      "lpAddresses": {
+        "43114": "0xEDB4D0f3523796A6A0f27325637B3b86Ce2fbf48"
+      },
+      "vaultAddresses": {
+        "43114": "0x7a2e6F95cA2B90CDC52f92dda8A7F2d0C2663264"
+      },
+      "icon": [
+        {
+          "image": "/images/usdc.svg",
+          "imageSize": "iconSize",
+          "imagePosition": "iconCenter"
+        }
+      ],
+      "platform": "GMX",
+      "allocPoint": 50,
+      "getLPLink": "https://traderjoexyz.com/pool",
+      "farmContract": "https://snowtrace.io/address/0x9ab2De34A33fB459b538c43f251eB825645e8595#code",
+      "total3rdPartyAPR": "8.06",
+      "3rdPartyId": "",
+      "token": {
+        "MAINNET": {
+          "chainId": "43114",
+          "address": "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
+          "decimals": "6",
+          "symbol": "USDC",
+          "name": "USD Coin"
+        }
+      },
+      "quoteToken": {
+        "MAINNET": {
+          "chainId": "43114",
+          "address": "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
+          "decimals": "6",
+          "symbol": "USDC",
+          "name": "USD Coin"
         }
       }
     }
