@@ -88,7 +88,7 @@ chainlinkContract = web3.eth.contract(address=glpPriceAggregator, abi=chainlinkO
 
 totalSupply = bavaContract.functions.totalSupply().call(block_identifier= 'latest')
 print("......")
-bonusMultiplier = 12
+bonusMultiplier = 10
 load_dotenv()
 infuraKey = os.getenv("INFURA_KEY")
 mongoDBUser = os.getenv("MONGODB_USERNAME")
@@ -98,6 +98,18 @@ mongoDBPW = os.getenv("MONGODB_PASSWORD")
 # ##########################################################################################################
 # Query ERC20 transfer event
 # ##########################################################################################################
+
+def loadPGLAPR(i) :
+    try:
+        responsePGLAPR = requests.get("https://api.pangolin.exchange/pangolin/apr2/"+i)
+        myJsonPGLAPR = responsePGLAPR.json()
+        PGLAPR = myJsonPGLAPR["combinedApr"]
+        return PGLAPR
+    except Exception as e:
+        print("pangolin Error happen")
+        logging.error(e)
+        return 0
+
 def queryData():
 # receipt = web3.eth.get_transaction_receipt("0x59c4f19ea4a6af4876f617419b812248bae8c5d915db5b6cc67ded5ede7ff593")   # or use tx_hash deifined on above command line
 # event = proxyContract.events.Transfer().processReceipt(receipt, errors= DISCARD)
@@ -151,6 +163,7 @@ def queryData():
 
     tvlArrayUpgradeable=[]
     aprArrayUpgradeable=[]
+    thirdPartyApr=[]
     apyArrayUpgradeable=[]
     returnRatioArrayUpgradeable=[]
     lpTokenValueArrayUpgradeable=[]
@@ -184,7 +197,6 @@ def queryData():
         lpToken = poolInfo[0]
         vaultAddress = poolInfo[1]
         allocPoint = poolInfo[2]
-        print(vaultAddress)
         
         lpContract = web3.eth.contract(lpToken, abi=lpAbi["abi"])
         lpTokenA = web3.eth.contract(address=event["token"]["MAINNET"]["address"], abi=lpAbi["abi"])
@@ -199,7 +211,6 @@ def queryData():
             vaultContract = web3.eth.contract(address=vaultAddress, abi=bavaCompoundVault_VariableUpgradeableAbi["abi"])
             lpReceiptInContract = vaultContract.functions.totalSupply().call()
             lpTokenInContract = (vaultContract.functions.vaultInfo().call())
-            print(lpTokenInContract)
             lpTokenInContract = lpTokenInContract[2]
 
         if lpReceiptInContract == 0 :
@@ -268,16 +279,22 @@ def queryData():
 
         if tvl == 0 :
             apr = ""
+            thirdPartyApr = ""
             apyDaily = ""
             apyMonthly = ""
         else:
             apr = ((28000 * 365 * bonusMultiplier * allocPoint * web3.fromWei(rewardPerBlockUpgradeable, 'ether') * decimal.Decimal(BAVAPrice) ) / (tvl * totalAllocPointUpgradeable)) * 100
+            if event["platform"] == "Pangolin":
+                thirdPartyApr = loadPGLAPR(event["3rdPartyId"])
+            else:
+                thirdPartyApr = event["total3rdPartyAPR"]
+
             apyDaily = ((1 + apr/36500)**365 -1) * 100
             apyWeekly = ((1 + apr/5200)**52 -1) * 100
             apyMonthly = ((1 + apr/1200)**12 -1) * 100
 
         tvlUpgradeable = {"tvl":str(tvl)}
-        aprUpgradeable = {"apr":str(apr)}
+        aprUpgradeable = {"apr":str(apr), "thirdPartyApr":str(thirdPartyApr)}
         apyDailyUpgradeable = {"apyDaily":str(apyDaily)}
         returnRatioUpgradeable = {"returnRatio":str(returnRatio)}
         lpTokenValueUpgradeable = {"lpTokenValue":str(lpTokenValue)}
@@ -834,7 +851,7 @@ def scheduleUpdate():
 # #############################################################################################################
 def main():
     
-    # queryData()
+    queryData()
     print("done query data")
     connectDB()
     updateDB()

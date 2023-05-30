@@ -481,7 +481,7 @@
       "allocPoint": 1000,
       "getLPLink": "https://traderjoexyz.com/pool",
       "farmContract": "https://snowtrace.io/address/0xBFd13f98A84C59D42D2086298100D4d7A715733D#code",
-      "total3rdPartyAPR": "1.32",
+      "total3rdPartyAPR": "0",
       "3rdPartyId": "",
       "token": {
         "MAINNET": {
@@ -526,7 +526,7 @@
       "allocPoint": 2000,
       "getLPLink": "https://traderjoexyz.com/pool",
       "farmContract": "https://snowtrace.io/address/0xDCeDB18047945de1F05F649569b3d2B0e648D9C8#code",
-      "total3rdPartyAPR": "1.06",
+      "total3rdPartyAPR": "0",
       "3rdPartyId": "",
       "token": {
         "MAINNET": {
@@ -571,7 +571,7 @@
       "allocPoint": 100,
       "getLPLink": "https://traderjoexyz.com/pool",
       "farmContract": "https://snowtrace.io/address/0x2d3147AC6dB2a8DfeE1946a9D59b1B0CBc3489c9#code",
-      "total3rdPartyAPR": "7.01",
+      "total3rdPartyAPR": "4.45",
       "3rdPartyId": "",
       "token": {
         "MAINNET": {
@@ -616,7 +616,7 @@
       "allocPoint": 100,
       "getLPLink": "https://traderjoexyz.com/pool",
       "farmContract": "https://snowtrace.io/address/0x5cBD2724A4398748615a2ad62ff80607dAC233fC#code",
-      "total3rdPartyAPR": "0.82",
+      "total3rdPartyAPR": "0.09",
       "3rdPartyId": "",
       "token": {
         "MAINNET": {
@@ -661,7 +661,7 @@
       "allocPoint": 100,
       "getLPLink": "https://traderjoexyz.com/pool",
       "farmContract": "https://snowtrace.io/address/0xFec19beb4e68B4c93622c51d4ad8AF804fe421AA#code",
-      "total3rdPartyAPR": "8.06",
+      "total3rdPartyAPR": "3.24",
       "3rdPartyId": "",
       "token": {
         "MAINNET": {
