@@ -51,7 +51,7 @@ bavaCompoundVault_VariableUpgradeableJson = open(full_path+'/abi/'+'BavaCompound
 bavaCompoundVault_VariableUpgradeableAbi = json.load(bavaCompoundVault_VariableUpgradeableJson)
 BavaCompoundVault_GlpUpgradeableJson = open(full_path+'/abi/'+'BavaCompoundVault_GlpUpgradeable.json')
 BavaCompoundVault_GlpUpgradeableAbi = json.load(BavaCompoundVault_GlpUpgradeableJson)
-chainlinkOracle_Json = open(full_path+'/abi/'+'chainlinkOracle.json')
+chainlinkOracle_Json = open(full_path+'/abi/'+'ChainlinkOracle.json')
 chainlinkOracle_Abi = json.load(chainlinkOracle_Json)
 
 # Load Pool data
