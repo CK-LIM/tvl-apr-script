@@ -6,7 +6,7 @@ from math import *
 import pandas as pd
 import requests
 from ast import literal_eval
-import time
+from time import time, ctime, sleep
 import decimal
 import schedule
 from pymongo import MongoClient
@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 import urllib.parse 
 import logging
 
-start_time = time.time()
+start_time = time()
 #Connect Ethereum node 
 # avarpc = "https://api.avax.network/ext/bc/C/rpc"
 avarpc = "https://rpc.ankr.com/avalanche"
@@ -827,10 +827,10 @@ def getDB():
 
 def minCheck():
     try:
-        # queryData()
+        queryData()
         connectDB()
         updateDB()
-        print("done query data")
+        print("done query data %s" % (ctime(time())))
     except Exception as e:
         print("MinCheck Error happen")
         logging.error(e)
@@ -844,7 +844,7 @@ def scheduleUpdate():
 
     while True:
         schedule.run_pending()
-        time.sleep(1)
+        sleep(1)
 
 # #############################################################################################################
 # Main code
@@ -852,12 +852,12 @@ def scheduleUpdate():
 def main():
     
     queryData()
-    print("done query data")
+    print("done query data %s" % (ctime(time())))
     connectDB()
     updateDB()
     # getDB()
 
-    print("--- %s seconds ---" % (time.time() - start_time))
+    print("--- %s seconds ---" % (time() - start_time))
     scheduleUpdate()
 
 if __name__ == "__main__":     # __name__ is a built-in variable in Python which evaluates to the name of the current module.
